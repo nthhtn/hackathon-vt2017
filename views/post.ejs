@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>EzLife</title>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/post.css">
+	<script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+	<script type="text/javascript" src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
+</head>
+
+<body>
+	<div class="header">
+		<h4>Create a new Post</h4>
+	</div>
+	<div class="wrapper container">
+		<div class="row">
+			<div id="choose-to-add" class='col-md-12 col-sm-12 col-xs-12'>
+				<div class="form-group col-md-12 col-sm-12 col-xs-12">
+					<p style="text-align: left;">Add a file</p>
+				</div>
+				<div id="choose-camera" class='col-md-4 col-sm-4 col-xs-4'>
+					<label for="camera-input"><img src="/images/group-9.png" /></label>
+					<input type="file" capture="camera" accept="image/*" id="camera-input" name="camera-input" />
+				</div>
+				<div id="choose-record" class='col-md-4 col-sm-4 col-xs-4'><img src="/images/group-3.png"></div>
+				<div id="choose-image" class='col-md-4 col-sm-4 col-xs-4'>
+					<label for="image-input"><img src="/images/group-2.png" /></label>
+					<input type="file" accept="image/*" id="image-input" name="image-input" />
+				</div>
+			</div>
+			<div id="list-input" class='col-md-12 col-sm-12 col-xs-12'>
+				<div class="form-group col-md-12 col-sm-12 col-xs-12">
+					<input type="text" class="form-control col-md-12 col-sm-12 col-xs-12" id="pos-start" placeholder="Where to go?">
+					<img id='img-geolocate' src="/images/shape.png" style="right:18px;top:4px;position: absolute;cursor: pointer;">
+				</div>
+				<div class="form-group col-md-12 col-sm-12 col-xs-12">
+					<p>Description</p>
+					<textarea rows='3' id='description' class="form-control col-md-12 col-sm-12 col-xs-12"></textarea>
+				</div>
+				<div class="form-group col-md-12 col-sm-12 col-xs-12">
+					<p>Tags</p>
+					<ul id='list-tag'>
+						<li>Accident</li>
+						<li>Road reconstruction</li>
+						<img src="/images/group-7.png" style="cursor: pointer;">
+					</ul>
+				</div>
+				<div class="form-group col-md-12 col-sm-12 col-xs-12">
+					<p>Email / Phone number (Contact us)</p>
+					<input type='text' id='contact' class="form-control col-md-12 col-sm-12 col-xs-12">
+				</div>
+				<button id='submit-btn'>
+					<h3 style="margin-top: 10px">Post</h3></button>
+			</div>
+		</div>
+	</div>
+	<script>
+	var img;
+	var lat;
+	var lng;
+
+	$('#list-tag li').on('click', function() {
+		if ($(this).hasClass('active')) {
+			$(this).removeClass('active');
+		} else {
+			$(this).addClass('active');
+		}
+	});
+
+	document.getElementById('camera-input').onchange = function(evt) {
+		var tgt = evt.target || window.event.srcElement;
+		var files = tgt.files;
+		var fr = new FileReader();
+		fr.onload = function() {
+			img = fr.result;
+		}
+		fr.readAsDataURL(files[0]);
+	}
+
+	document.getElementById('image-input').onchange = function(evt) {
+		var tgt = evt.target || window.event.srcElement;
+		var files = tgt.files;
+		var fr = new FileReader();
+		fr.onload = function() {
+			img = fr.result;
+		}
+		fr.readAsDataURL(files[0]);
+	}
+
+	$('#img-geolocate').on('click', function() {
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(function(position) {
+				lat = position.coords.latitude;
+				lng = position.coords.longitude;
+			});
+		}
+	});
+
+	$('#submit-btn').click(function() {
+		var data = {
+			image: img,
+			lat: lat,
+			lng: lng,
+			description: $('#description').val(),
+			tag: 'accident',
+			contact: $('#contact').val()
+		};
+		$.ajax({
+			url:'/post',
+			method:'POST',
+			data:data,
+			success:function(response){
+				console.log(response);
+				window.location.href='/map';
+			}
+		});
+	});
+	</script>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHWkUPVU8hx82hdh0PLQuq7V5QZvRsEYE"></script>
+	<!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAy7RMk2wSnPEdfW0dJJLp9VRHanWUJ-WQ&callback=initMap"></script>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2xMB0ccW7UAPS8QI3qP5z-qRhNBbhJRE&callback=initMap"></script> -->
+</body>
+
+</html>

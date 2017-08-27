@@ -1,0 +1,73 @@
+html,
+body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.header {
+	background-color: #3b48ee;
+	padding: 10px 0;
+}
+
+.header * {
+	margin: 0;
+	text-align: center;
+	color: #ffffff;
+}
+
+.wrapper {
+	padding: 0;
+	margin: 0;
+	width: 100%;
+}
+
+.wrapper>.row>div {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+#choose-to-add>div {
+	text-align: center;
+}
+
+#choose-camera>input {
+	display: none;
+}
+
+#choose-image>input {
+	display: none;
+}
+
+#pos-start {
+	background: url('/images/mapmarker-icon.png') no-repeat scroll 6px 6px;
+	background-color: #f3f5f9;
+	padding-left: 24px;
+}
+
+#list-tag {
+	list-style-type: none;
+}
+
+#list-tag li {
+	display: inline;
+	border-radius: 100px;
+	background-color: #e7ebf3;
+	color: #43496a;
+	padding: 10px 5px;
+	cursor: pointer;
+	outline: none;
+}
+
+#list-tag li.active {
+	background-color: #3b48ee;
+	color: #ffffff;
+}
+
+#submit-btn {
+	background-color: #3b48ee;
+	color: #ffffff;
+	width: 100%;
+	outline: none;
+	border: none;
+}
