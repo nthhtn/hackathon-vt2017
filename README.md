@@ -39,3 +39,5 @@ npm install
 ~~~
 node app.js
 ~~~
+
+* Access to `localhost:3000`
